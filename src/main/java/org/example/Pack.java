@@ -23,7 +23,6 @@ public class Pack {
     public void openPack() {
         pack.clear();
 
-        // Generate Rarity
         for(int i = 0; i < 10; i++) {
             // Fetch 10 Commons
             pack.add(fetchCard("Common"));
@@ -39,7 +38,7 @@ public class Pack {
         pack.add(fetchCard(rareOrMythic));
 
         // Fetch Land
-        pack.add(fetchCard("Land"));
+        pack.add(fetchLand());
 
         // Sort
         sortRarity();
@@ -79,13 +78,32 @@ public class Pack {
         });
     }
 
-    // TEMP UNTIL API
     private Card fetchCard(String rarity) {
-        String name = "TEST NAME";
-        double price = 1.0;
-        String imgURL = "https://www.cardkingdom.com/images/magic-the-gathering/4th-edition/lightning-bolt-62250.jpg";
-        return new Card(name, rarity, imgURL, price);
+        // Fetch from API
+        try {
+            return API.fetchCard(rarity);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Card("Failed to fetch..", rarity, "", 0.0);
+        }
+    }
 
+    private Card fetchLand() {
+        // Fetch from API
+        try {
+            return API.fetchLand();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Card("failed to fetch..", "Land", "", 0.0);
+        }
+    }
+
+    public double getTotalPackVal() {
+        double total = 0.0;
+        for(Card card: pack) {
+            total += card.getPrice();
+        }
+        return total;
     }
 }
 
