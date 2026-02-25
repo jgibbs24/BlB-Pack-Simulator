@@ -27,7 +27,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Create initial stage
-        ImageView packImage = new ImageView("file:/C:/Users/Jameson/Downloads/blb_pack_wrapper.JPG");
+        ImageView packImage = new ImageView(
+                getClass().getResource("/images/blb_pack_wrapper.JPG").toExternalForm());
         packImage.setFitWidth(200);
         packImage.setPreserveRatio(true);
 
@@ -40,8 +41,9 @@ public class MainApp extends Application {
         initialLayout.setAlignment(Pos.CENTER);
 
         // Background
-        initialLayout.setStyle("-fx-background-image: url('file:/C:/Users/Jameson/Downloads/bloomburrow_background.jpg');"
-                + "-fx-background-size: cover; -fx-background-position: center;");
+        initialLayout.setStyle("-fx-background-image: url('" +
+                getClass().getResource("/images/bloomburrow_background.jpg").toExternalForm() +
+                "'); -fx-background-size: cover; -fx-background-position: center;");
         // Set stage
         Scene initialScene = new Scene(initialLayout, 1920, 1080);
         primaryStage.setTitle("Bloomburrow Pack Opener");
@@ -108,8 +110,9 @@ public class MainApp extends Application {
         finalLayout.getChildren().addAll(cardsLayout, cardDetailLayout, totalValueLayout, compareBox);
         finalLayout.setAlignment(Pos.CENTER);
 
-        finalLayout.setStyle("-fx-background-image: url('file:/C:/Users/Jameson/Downloads/bloomburrow_background.jpg');"
-                + "-fx-background-size: cover; -fx-background-position: center;");
+        finalLayout.setStyle("-fx-background-image: url('" +
+                getClass().getResource("/images/bloomburrow_background.jpg").toExternalForm() +
+                "'); -fx-background-size: cover; -fx-background-position: center;");
         // Set Final Scene
         Scene finalScene = new Scene(finalLayout,1920,1080);
         primaryStage.setScene(finalScene);
