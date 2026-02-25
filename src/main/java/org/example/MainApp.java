@@ -20,6 +20,9 @@ public class MainApp extends Application {
     private HBox cardDetailLayout = new HBox(10);
     private double totalValue = 0.0;
 
+    private int packsOpened = 0;
+    private double totalCardValue = 0.0;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -86,7 +89,6 @@ public class MainApp extends Application {
         // Display total value
         String totalPackValue = "Total Pack Value: " + String.format("%.2f", packVal);
         Button totalValueButton = new Button(totalPackValue);
-        totalValueButton.setDisable(true);
 
         cardDetailLayout.setAlignment(Pos.BOTTOM_LEFT);
         cardDetailLayout.getChildren().clear();
@@ -96,9 +98,14 @@ public class MainApp extends Application {
         totalValueLayout.setAlignment(Pos.BOTTOM_RIGHT);
         totalValueLayout.getChildren().add(totalValueButton);
 
+        // Create box for up / down on value
+        packsOpened++;
+        totalCardValue += packVal;
+        HBox compareBox = getValueCompareBox();
+
         // Final Layout w/ cards
         VBox finalLayout = new VBox(10);
-        finalLayout.getChildren().addAll(cardsLayout, cardDetailLayout, totalValueLayout);
+        finalLayout.getChildren().addAll(cardsLayout, cardDetailLayout, totalValueLayout, compareBox);
         finalLayout.setAlignment(Pos.CENTER);
 
         finalLayout.setStyle("-fx-background-image: url('file:/C:/Users/Jameson/Downloads/bloomburrow_background.jpg');"
@@ -114,5 +121,26 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private HBox getValueCompareBox() {
+        double totalSpent = packsOpened * 4.99;
+        String result = String.format("Spent: $%.2f / Value: $%.2f",
+                totalSpent, totalCardValue);
+        Button resultButton = new Button(result);
+
+        if(totalCardValue > totalSpent) {
+            resultButton.setStyle("-fx-text-fill: green;");
+        } else if(totalCardValue == totalSpent) {
+            resultButton.setStyle("-fx-text-fill: yellow;");
+        } else if(totalCardValue < totalSpent) {
+            resultButton.setStyle("-fx-text-fill: red;");
+        } else {
+            resultButton.setStyle("-fx-text-fill: black;");
+        }
+        HBox resultBox = new HBox(resultButton);
+        resultBox.setAlignment(Pos.TOP_RIGHT);
+        return resultBox;
+
     }
 }
